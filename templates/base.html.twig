@@ -1,19 +1,271 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
+<!DOCTYPE HTML>
+<html lang="fr">
+<head>
+    <title>{% block title %}IRON FIT{% endblock %}</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+
+    {% block css %}
+        <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    {% endblock %}
+  {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('assets/css/main.css')}}"
+            <link rel="preconnect" href="https://fonts.gstatic.com">
+            <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@700&display=swap" rel="stylesheet">
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
+    <style>
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
-</html>
+     #dark,
+     #red {
+         background-color: #da2424;
+         background-image: linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%);
+         background-image: linear-gradient(#20262b, #191d22);
+         background-image: radial-gradient(center 50% 0%, radius 100%, rgba(114, 131, 148, 0.9), rgba(255, 255, 255, 0));
+         border-radius: 5px 4px 3px 5px;  /* Correction de la propriété */
+         background-insets: 0 1px 2px 0;
+         color: white;
+         text-decoration: none;
+         display: inline-block;
+         font-family: "Arial";
+         font-size: 18px;
+         font-weight: bold;
+         padding: 10px 20px;
+         box-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
+     }
+
+
+       #dark:hover,
+       #red:hover {
+           background-color: #da2424; /* Changement de la couleur à rouge au survol */
+           background-image: linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%);
+           background-image: linear-gradient(#20262b, #191d22);
+           background-image: radial-gradient(center 50% 0%, radius 100%, rgba(255, 255, 255, 0), rgba(114, 131, 148, 0.9));
+           background-radius: 5px 4px 3px 5px;
+            background-insets: 0 1px 2px 0;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            font-family: "Arial";
+           padding: 10px 20px;
+       }
+
+
+#promo-wrapper {
+    background-image: url('/images/1.png');
+
+
+}
+
+
+
+
+#nav {
+    position: relative;
+    height: 60px; /* Ajustez la hauteur selon vos besoins */
+    padding: 0px; /* Ajustez le padding selon vos besoins */
+}
+
+#logo2 {
+    width: 151px; /* Ajustez la taille selon vos besoins */
+
+    position: absolute;
+    top: 50%; /* Alignez le haut du logo au centre vertical */
+    transform: translateY(-50%); /* Centrez verticalement le logo */
+    left: 10px;
+	padding-right:60px;
+}
+#footer-wrapper{
+	background-color: #090a0c;
+	color:white ;
+}
+
+/* Ajoutez d'autres styles pour les éléments de la navigation (ul, li, a, etc.) selon vos besoins */
+
+
+   </style>
+
+  </head>
+  <body class="homepage is-preload">
+      <div id="page-wrapper">
+          <!-- Header -->
+   {% block header %}
+       <div id="header-wrapper">
+           <div >
+               <nav id="nav" >
+                   <!-- Logo -->
+                   <a href="{{ path('app_post_index') }}">
+                       <img id="logo2" src="{{ asset('images/3.png') }}" alt="logoironfit" />
+                   </a>
+                   <ul>
+                       <li>
+                           <a href="#">Nos Services </a>
+                           <ul>
+                               <li><a href="{{ path('app_post_index') }}">Salle de sport </a></li>
+                               <li><a href="{{ path('app_post_index') }}">Abonnement</a></li>
+                           </ul>
+                       </li>
+                       <li><a href="{{ path('app_post_index') }}">Forum</a></li>
+                       <li class="break"><a href="{{ path('app_post_index') }}">Se Connecter</a></li>
+                       <li><a href="{{ path('app_post_index') }}">S'inscrire</a></li>
+                   </ul>
+               </nav>
+           </div>
+       </div>
+   {% endblock %}
+
+
+       {% block body %}
+       					<!-- Hero -->
+                        <section id="hero" class="container">
+                            <header>
+                                <h2 style="color: black;">Your Iron Future starts
+                                    <br />
+                                    with iron Fit !
+                                </h2>
+                            </header>
+                            <p style="color: black;"> Découvrez une expérience complète pour votre bien-être avec notre plateforme
+                                offrant <br />des services de coaching personnalisé, une boutique en ligne pour des articles de sport de qualité,
+                                une gestion diététique supervisée par des professionnels<br /> de la santé, et un espace dédié à l'échange d'idées sur notre forum interactif.
+                                Bienvenue dans un univers où votre santé et votre vitalité sont au cœur de nos préoccupations.
+                            </p>
+                            <br />
+                            <ul class="actions">
+                                <li><a id="red" href="#">Commencez dès Maintenant !</a></li>
+                            </ul>
+                        </section>
+
+       				</div>
+
+       			<!-- Features 1 -->
+       				<div class="wrapper">
+       					<div class="container">
+       						<div class="row">
+       							<section class="col-6 col-12-narrower feature">
+       								<div class="image-wrapper first">
+       									<a href="#" class="image featured first"><img src="{{ asset('images/15.png') }}" alt="" style="width: 600px; height: 600px;"/></a>
+       								</div>
+       								<header>
+       									<h2>Nos Salle de Sport </h2>
+       								</header>
+       								<p>Nos salles de sport offrent une gamme complète d'équipements de cardio, de musculation et de cours collectifs pour répondre à tous les besoins. Vous bénéficierez d'un environnement motivant et inspirant qui favorise la progression et le dépassement de soi. </p>
+       								<ul class="actions">
+       									<li><a href="#"id="dark">Reservez votre place ! </a></li>
+       								</ul>
+       							</section>
+       							<section class="col-6 col-12-narrower feature">
+       								<div class="image-wrapper">
+       									<a href="#" class="image featured"><img src="{{ asset('images/20.jpg') }}" alt=""style="width: 600px; height: 600px;" /></a>
+       								</div>
+       								<header>
+       									<h2>Nos Planning</h2>
+       								</header>
+       								<p>Relevez chaque défi avec enthousiasme et faites du sport une partie intégrante de votre quotidien. Rejoignez-nous dans cette aventure vers la forme physique et le bien-être, où chaque séance de sport vous rapproche de vos objectifs.</p>
+       								<ul class="actions">
+       									<li><a href="#" id="red">Réservez vos Plannings !</a></li>
+       								</ul>
+       							</section>
+       						</div>
+       					</div>
+       				</div>
+
+       			<!-- Promo -->
+       				<div id="promo-wrapper">
+       					<section id="promo">
+       						<h2>Explorez notre forum dès maintenant et découvrez une communauté vibrante prête à vous inspirer et à vous accompagner dans votre parcours vers la réussite !</h2>
+       						<a href="#"  id="red" >Explorez notre forum</a>
+       					</section>
+       				</div>
+
+       			<!-- Features 2 -->
+       				<div class="wrapper">
+       					<section class="container">
+       						<header class="major">
+       							<h2>Vous Cherchez des produits , abonnement pour salle de sport ? </h2>
+       							<p>Rejoignez notre famille fitness et commencez votre parcours vers une vie plus saine dès aujourd'hui! </p>
+       						</header>
+       						<div class="row features">
+       							<section class="col-4 col-12-narrower feature">
+       								<div class="image-wrapper first">
+       									<a href="#" class="image featured"><img src="{{ asset('images/12.png') }}" alt="" style="width: 400px; height: 300px;"/></a>
+       								</div>
+       								<p>Optez pour l'excellence en choisissant notre abonnement exclusif
+       								 qui ouvre les portes d'un monde de bien-être et de remise en forme.</p>
+       							</section>
+       							<section class="col-4 col-12-narrower feature">
+       								<div class="image-wrapper">
+       									<a href="#" class="image featured"><img src="{{ asset('images/2.jpg') }}" alt=""  style="width: 400px; height: 300px;"/></a>
+       								</div>
+       								<p>Explorez notre gamme complète de produits de qualité conçus pour soutenir votre bien-être et enrichir votre mode de vie actif. Avec une
+       								sélection soigneusement élaborée de protéines, de vitamines et de suppléments alimentaires,</p>
+       							</section>
+       							<section class="col-4 col-12-narrower feature">
+       								<div class="image-wrapper">
+       									<a href="#" class="image featured"><img src="{{ asset('images/4.jpg') }}" alt=""  style="width: 400px; height: 300px;"/></a>
+       								</div>
+       								<p>Découvrez notre équipe de professionnels de la santé dévoués à votre bien-être. Composée de médecins, kinésithérapeutes, nutritionnistes, et experts en santé,
+       								notre équipe est là pour vous accompagner dans votre parcours vers une vie plus saine.</p>
+       							</section>
+       						</div>
+       						<ul class="actions major">
+       							<li><a href="#" id="dark">S'inscrire</a></li>
+       						</ul>
+       					</section>
+       				</div>
+       				 {% endblock %}
+
+
+			<!-- Footer -->
+		  {% block footer %}
+                <div id="footer-wrapper">
+                    <footer>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-sm-6 col-md-3 item">
+                                    <h3>Nos Services</h3>
+                                    <ul>
+                                        <li><a href="#">Salle de sport</a></li>
+                                        <li><a href="#">Planning</a></li>
+                                        <li><a href="#">Abonnement</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-sm-6 col-md-3 item">
+                                    <br> <br>
+                                    <ul>
+                                        <li><a href="#">Produits</a></li>
+                                        <li><a href="{{ path('app_post_index') }}">Forum</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6 item text">
+                                    <h3>IRON FIT</h3>
+                                    <p>Découvrez notre plateforme tout-en-un, fusionnant coaching personnalisé, boutique sportive, conseils nutritionnels et un vibrant forum. Libérez le meilleur de votre bien-être, tout au même endroit</p>
+                                </div>
+                                <div class="col item social">
+                                    <a href="#"><i class="icon ion-social-facebook"></i></a>
+                                    <a href="#"><i class="icon ion-social-twitter"></i></a>
+                                    <a href="#"><i class="icon ion-social-snapchat"></i></a>
+                                    <a href="#"><i class="icon ion-social-instagram"></i></a>
+                                </div>
+                            </div>
+                            <p class="copyright">IRON FIT © 2023</p>
+                        </div>
+                    </footer>
+                </div>
+                {% endblock %}
+
+
+
+                     <!-- Scripts -->
+                     {% block js %}
+                         <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+                         <script src="{{ asset('assets/js/jquery.dropotron.min.js') }}"></script>
+                         <script src="{{ asset('assets/js/browser.min.js') }}"></script>
+                         <script src="{{ asset('assets/js/breakpoints.min.js') }}"></script>
+                         <script src="{{ asset('assets/js/util.js') }}"></script>
+                         <script src="{{ asset('assets/js/main.js') }}"></script>
+                     {% endblock %}
+                 </div>
+             </body>
+             </html>
