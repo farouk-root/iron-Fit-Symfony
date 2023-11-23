@@ -5,11 +5,13 @@ namespace App\Controller;
 use App\Entity\Commentaire;
 use App\Form\CommentaireType;
 use App\Repository\CommentaireRepository;
+use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\EventDispatcher\Event;
 
 #[Route('/commentaire')]
 class CommentaireController extends AbstractController
@@ -78,4 +80,24 @@ class CommentaireController extends AbstractController
 
         return $this->redirectToRoute('app_commentaire_index', [], Response::HTTP_SEE_OTHER);
     }
+
+//    /**
+//     * @Route("/getEvents/{eventId}", name="comments_by_event")
+//     */
+//    public function getCommentsByEventId($eventId,CommentaireRepository $commentaireRepo , PostRepository $postRepo): Response
+//    {
+//        $event = $postRepo->find($eventId);
+//
+//        if (!$event) {
+//            throw $this->createNotFoundException('Event not found');
+//        }
+//
+//        // Fetch comments associated with the event
+//        $comments = $commentaireRepo->findCommentsByEventId(['event' => $event]);
+//
+//        return $this->render('commentaire/index.html.twig', [
+//            'event' => $event,
+//            'commentaire' => $comments,
+//        ]);
+//    }
 }

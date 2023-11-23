@@ -21,6 +21,22 @@ class CommentaireRepository extends ServiceEntityRepository
         parent::__construct($registry, Commentaire::class);
     }
 
+    /**
+     * Get comments by event ID.
+     *
+     * @param int $eventId
+     * @return array
+     */
+//    public function findCommentsByEventId($eventId)
+//    {
+//        return $this->createQueryBuilder('c')
+//            ->join('c.event', 'e')
+//            ->where('e.id = :eventId')
+//            ->setParameter('eventId', $eventId)
+//            ->getQuery()
+//            ->getResult();
+//    }
+
 //    /**
 //     * @return Commentaire[] Returns an array of Commentaire objects
 //     */

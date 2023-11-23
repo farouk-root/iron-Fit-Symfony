@@ -11,7 +11,7 @@
 
 {% block body %}
 
-<div class="w3-content" style="max-width:1400px">
+<div class="w3-content" style="max-width:1300px;">
     <!-- Grid -->
     <div class="w3-row">
 
@@ -20,7 +20,12 @@
             <!-- Blog entry -->
             {% for post in posts %}
                 <div class="w3-card-4 w3-margin w3-white">
-                    <img src="https://scontent.ftun14-1.fna.fbcdn.net/v/t39.30808-6/402626291_678785347684056_7690802420020682244_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=5f2048&_nc_ohc=iO3jy7Q6FlQAX-6vPyY&_nc_ht=scontent.ftun14-1.fna&oh=00_AfAZYy9FeGfcJ7ODBf9sie6WKkel3fCdID4KjaQdgZtdvA&oe=655BC528" alt="Nature" style="width:100%">
+                    {% if post.image is not empty %}
+                        <img src="{{ asset('uploads/'~ post.image) }}" alt="Nature" style="width:100%">
+                        {% else %}
+                        <img src="{{ asset('assets/noPhoto.jpg') }}" alt="noPhoto" style="width:100%">
+                    {% endif %}
+{#                    <img src="{{ asset('uploads/'~ post.image) }}" alt="Nature" style="width:100%">#}
                     <div class="w3-container">
                         <h3><b>{{ post.title }}</b></h3>
                         <h5>{{ post.status }}, <span class="w3-opacity">{{ post.createdAt ? post.createdAt|date('Y-m-d H:i:s') : '' }}</span></h5>
@@ -40,58 +45,57 @@
                                 <p><button class="w3-button w3-padding-large w3-white w3-border"><b>READ MORE »</b></button></p>
                             </div>
                             <div class="w3-col m4 w3-hide-small">
-                                <p><span class="w3-padding-large w3-right"><b>Comments  </b> <span class="w3-tag">{{ post.commentaires|length }}</span></span></p>
+                                <p><a href="{{ path('app_post_comments', {'postid': post.id}) }}"><span class="w3-padding-large w3-right"><b>Comments  </b> <span class="w3-tag">{{ post.commentaires|length }}</span></span></a></p>
                             </div>
                         </div>
                     </div>
                 </div>
             {% endfor %}
             <hr>
+            <hr>
+            <div class="w3-col l4">
+            <!-- Labels / tags -->
+            <div class="w3-card w3-margin">
+            </div>
+            </div>
+        </div>
+
+        <!-- Introduction menu -->
+        <div class="w3-col l4">
+
+            <!-- Posts -->
+            <hr>
+            <div class="w3-card w3-margin">
+                <div class="w3-container w3-padding">
+                    <h4>Manage Your Posts</h4>
+                </div>
+                <div class="w3-container w3-white">
+                    <p><a href="{{ path('app_post_new') }}">
+                            <button class="w3-button w3-padding-large w3-light-blue w3-border w3-medium"><b>Add Post »</b></button></a>
+                    </p>
+                    <p><button class="w3-button w3-padding-large w3-light-blue w3-border w3-medium"><b>My Posts »</b></button></p>
+
+                </div>
+            </div>
+            <!-- Labels / tags -->
+            <div class="w3-card w3-margin">
+                <div class="w3-container w3-padding">
+                    <h4>Tags</h4>
+                </div>
+                <div class="w3-container w3-white">
+                    <p>     {% for post in posts %}
+                        {% for category in post.categories %}
+                            <span class="w3-tag w3-light-black w3-medium w3-margin-bottom">{{ category.tag }}</span>
+                        {% endfor %}
+                    {% endfor %}
+                    </p>
+                </div>
+            </div>
+
+            <!-- END Introduction Menu -->
         </div>
         </div>
+
 </div>
-    <hr>
-    <h1>Post index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Content</th>
-                <th>Created_At</th>
-                <th>Updated_At</th>
-                <th>Status</th>
-                <th>Likes</th>
-                <th>Image</th>
-                <th>Location</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for post in posts %}
-            <tr>
-                <td>{{ post.id }}</td>
-                <td>{{ post.title }}</td>
-                <td>{{ post.content }}</td>
-                <td>{{ post.createdAt ? post.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ post.updatedAt ? post.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ post.status }}</td>
-                <td>{{ post.likes }}</td>
-                <td>{{ post.image }}</td>
-                <td>{{ post.location }}</td>
-                <td>
-                    <a href="{{ path('app_post_show', {'id': post.id}) }}">show</a>
-                    <a href="{{ path('app_post_edit', {'id': post.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="10">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_post_new') }}">Create new</a>
 {% endblock %}
