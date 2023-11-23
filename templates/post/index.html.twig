@@ -20,6 +20,7 @@
             <!-- Blog entry -->
             {% for post in posts %}
                 <div class="w3-card-4 w3-margin w3-white">
+
                     {% if post.image is not empty %}
                         <img src="{{ asset('uploads/'~ post.image) }}" alt="Nature" style="width:100%">
                         {% else %}

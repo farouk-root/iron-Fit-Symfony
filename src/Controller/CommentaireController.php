@@ -17,8 +17,16 @@ use Symfony\Contracts\EventDispatcher\Event;
 class CommentaireController extends AbstractController
 {
     #[Route('/', name: 'app_commentaire_index', methods: ['GET'])]
-    public function index(CommentaireRepository $commentaireRepository): Response
+    public function index(CommentaireRepository $commentaireRepository,EntityManagerInterface $entityManager): Response
     {
+        $commentaires = $commentaireRepository->findAll();
+        foreach ($commentaires as $commentaire) {
+            if ($commentaire->getReportedCount() >= 5) {
+                $commentaire->setIsFlagged(true);
+                $entityManager->flush();
+            }else
+            $commentaire->setIsFlagged(false);
+        }
         return $this->render('commentaire/index.html.twig', [
             'commentaires' => $commentaireRepository->findAll(),
         ]);
@@ -32,6 +40,12 @@ class CommentaireController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $commentaire->setReportedCount(0);
+            $commentaire->setIsApproved(false);
+            $commentaire->setIsDeleted(false);
+            $commentaire->setIsFlagged(false);
+
+
             $entityManager->persist($commentaire);
             $entityManager->flush();
 
@@ -68,6 +82,14 @@ class CommentaireController extends AbstractController
             'commentaire' => $commentaire,
             'form' => $form,
         ]);
+    }
+
+    #[Route('/{id}/report', name: 'app_commentaire_report', methods: ['GET', 'POST'])]
+    public function report(Request $request, Commentaire $commentaire, EntityManagerInterface $entityManager): Response
+    {
+        $commentaire->setReportedCount($commentaire->getReportedCount()+1);
+        $entityManager->flush();
+        return $this->redirectToRoute('app_post_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{id}', name: 'app_commentaire_delete', methods: ['POST'])]

@@ -13,10 +13,6 @@ class CommentaireType extends AbstractType
     {
         $builder
             ->add('content')
-            ->add('reportedCount')
-            ->add('isFlagged')
-            ->add('isApproved')
-            ->add('isDeleted')
             ->add('post')
             ->add('user')
         ;

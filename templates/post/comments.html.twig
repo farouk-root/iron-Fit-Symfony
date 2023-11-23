@@ -1,47 +1,82 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Commentaire index{% endblock %}
+{% block title %}Commentaires {% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('https://www.w3schools.com/w3css/4/w3.css') }}">
+    <link rel="stylesheet" href="{{ asset('https://fonts.googleapis.com/css?family=Raleway') }}">
+    </head>
+{% endblock %}
 
 {% block body %}
-    <h1>Commentaire index</h1>
+<div class="w3-content" style="max-width:1400px">
+    <div class="w3-col l4">
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Content</th>
-            <th>Created_At</th>
-            <th>Updated_At</th>
-            <th>ReportedCount</th>
-            <th>IsFlagged</th>
-            <th>IsApproved</th>
-            <th>IsDeleted</th>
-            <th>actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for commentaire in onepost.commentaires %}
-            <tr>
-                <td>{{ commentaire.id }}</td>
-                <td>{{ commentaire.content }}</td>
-                <td>{{ commentaire.createdAt ? commentaire.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ commentaire.updatedAt ? commentaire.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ commentaire.reportedCount }}</td>
-                <td>{{ commentaire.isFlagged ? 'Yes' : 'No' }}</td>
-                <td>{{ commentaire.isApproved ? 'Yes' : 'No' }}</td>
-                <td>{{ commentaire.isDeleted ? 'Yes' : 'No' }}</td>
-                <td>
-                    <a href="{{ path('app_commentaire_show', {'id': commentaire.id}) }}">show</a>
-                    <a href="{{ path('app_commentaire_edit', {'id': commentaire.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="9">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <!-- Posts -->
+        <hr>
+        <div class="w3-card w3-margin">
+            <div class="w3-container w3-padding">
+                <h4>Manage Your Posts</h4>
+            </div>
+            <div class="w3-container w3-white">
+                <p><a href="{{ path('app_post_index') }}">
+                        <button class="w3-button w3-padding-large w3-light-blue w3-border w3-medium"><b>Back To list »</b></button></a>
+                </p>
+                <p><a href="{{ path('app_commentaire_new') }}">
+                        <button class="w3-button w3-padding-large w3-light-blue w3-border w3-medium"><b>Add Commentaire »</b></button></a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <!-- Blog entries -->
+
+
+    <div class="w3-card w3-margin">
+        <div class="w3-container w3-padding">
+            <h4>Commentaires of {{ onepost.title }}</h4>
+        </div>
+        <ul class="w3-ul w3-hoverable w3-white">
+            {% for commentaire in onepost.commentaires %}
+                {% if not commentaire.isFlagged %}
+                    <li class="w3-padding-16">
+                        <img src="{{ asset('assets/user1.png') }}" alt="Image" class="w3-left w3-margin-right" style="width:50px">
+                        <span class="w3-large">{{ commentaire.user.name }}</span><br>
+                        <div class="w3-container" style="position: relative;">
+                            <!-- Top-right div -->
+                            <div class="w3-container" style="position: relative; display: flex; flex-direction: column; align-items: flex-end;">
+                                <!-- Content of the top-right div -->
+                                <div class="top-right-div">
+                                    <h5>
+                                        <span class="w3-opacity">{{ commentaire.createdAt ? commentaire.createdAt|date('Y-m-d H:i:s') : '' }}</span>
+                                    </h5>
+                                </div>
+                                <div class="top-right-div">
+                                    <h5>
+                                        <span class="w3-tag w3-light-black w3-large w3-margin-bottom">{{ commentaire.reportedCount }}</span>
+                                    </h5>
+                                </div>
+
+                                <!-- Rest of the content -->
+
+                            </div>
+                        </div>
+                        <p>{{ commentaire.content }}</p>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            {% if onepost.commentaires is empty %}
+                <li class="w3-padding-16">
+                    <span>no records found</span>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+
+
+    </div>
+
+</div>
+    <hr>
 
     <a href="{{ path('app_commentaire_new') }}">Create new</a>
 {% endblock %}

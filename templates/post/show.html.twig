@@ -1,54 +1,131 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Post{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('https://www.w3schools.com/w3css/4/w3.css') }}">
+    <link rel="stylesheet" href="{{ asset('https://fonts.googleapis.com/css?family=Raleway') }}">
+    </head>
+{% endblock %}
 
 {% block body %}
-    <h1>Post</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ post.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ post.title }}</td>
-            </tr>
-            <tr>
-                <th>Content</th>
-                <td>{{ post.content }}</td>
-            </tr>
-            <tr>
-                <th>Created_At</th>
-                <td>{{ post.createdAt ? post.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Updated_At</th>
-                <td>{{ post.updatedAt ? post.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>{{ post.status }}</td>
-            </tr>
-            <tr>
-                <th>Likes</th>
-                <td>{{ post.likes }}</td>
-            </tr>
-            <tr>
-                <th>Image</th>
-                <td>{{ post.image }}</td>
-            </tr>
-            <tr>
-                <th>Location</th>
-                <td>{{ post.location }}</td>
-            </tr>
-        </tbody>
-    </table>
+
+    <div class="w3-content" style="max-width:1400px; margin-left: 400px;">
+        <!-- Grid -->
+        <div class="w3-row">
+
+            <!-- Blog entries -->
+            <div class="w3-col l8 s12">
+                <!-- Blog entry -->
+
+                    <div class="w3-card-4 w3-margin w3-white">
+                        {% if post.image is not empty %}
+                            <img src="{{ asset('uploads/'~ post.image) }}" alt="Nature" style="width:100%">
+                        {% else %}
+                            <img src="{{ asset('assets/noPhoto.jpg') }}" alt="noPhoto" style="width:100%">
+                        {% endif %}
+                        {#                    <img src="{{ asset('uploads/'~ post.image) }}" alt="Nature" style="width:100%">#}
+                        <hr>
+                        <hr>
+                        <div class="w3-container">
+                            <h3><b>{{ post.title }}</b></h3>
+                            <h5>{{ post.status }}, <span class="w3-opacity">{{ post.createdAt ? post.createdAt|date('Y-m-d H:i:s') : '' }}</span></h5>
+                        </div>
+                        <div class="w3-container w3-white">
+                            <p>
+                                {% for category in post.categories %}
+                                    <span class="w3-tag w3-light-black w3-medium w3-margin-bottom">{{ category.tag }}</span>
+                                {% endfor %}
+                            </p>
+                        </div>
+
+                        <div class="w3-container">
+                            <p>{{ post.content }}</p>
+                            <div class="w3-row">
+
+{#                                <div class="w3-col m4 w3-hide-small">#}
+{#                                    <p><a href="{{ path('app_post_comments', {'postid': post.id}) }}"><span class="w3-padding-large w3-right"><b>Comments  </b> <span class="w3-tag">{{ post.commentaires|length }}</span></span></a></p>#}
+{#                                </div>#}
+
+                                <div class="w3-card w3-margin">
+                                    <div class="w3-container w3-padding">
+                                        <h4>Commentaires of {{ post.title }}</h4>
+                                    </div>
+                                    <ul class="w3-ul w3-hoverable w3-white">
+                                            {% for commentaire in post.commentaires %}
+                                                {% if not commentaire.isFlagged %}
+                                                    <li class="w3-padding-16">
+                                                        <img src="{{ asset('assets/user1.png') }}" alt="Image" class="w3-left w3-margin-right" style="width:50px">
+                                                        <span class="w3-large">{{ commentaire.user.name }}</span><br>
+                                                        <div class="w3-container" style="position: relative;">
+                                                            <!-- Top-right div -->
+                                                            <div class="w3-container" style="position: relative; display: flex; flex-direction: column; align-items: flex-end;">
+                                                                <!-- Content of the top-right div -->
+                                                                <div class="top-right-div">
+                                                                    <h5>
+                                                                        <span class="w3-opacity">{{ commentaire.createdAt ? commentaire.createdAt|date('Y-m-d H:i:s') : '' }}</span>
+                                                                    </h5>
+                                                                </div>
+                                                                <div class="top-right-div">
+                                                                    <h5>
+                                                                        <span class="w3-tag w3-light-black w3-large w3-margin-bottom">{{ commentaire.reportedCount }}</span>
+                                                                    </h5>
+                                                                </div>
+
+                                                                <!-- Rest of the content -->
+                                                                <span>{{ commentaire.content }}</span>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% if post.commentaires is empty %}
+                                                <li class="w3-padding-16">
+                                                    <span>no records found</span>
+                                                </li>
+                                            {% endif %}
+                                        </ul>
+
+
+                                </div>
+
+
+                            </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                <hr>
+                <hr>
+            <div class="w3-col l4">
+
+                <!-- Posts -->
+                <hr>
+                <div class="w3-card w3-margin">
+                    <div class="w3-container w3-padding">
+                        <h4>Manage Your Posts</h4>
+                    </div>
+                    <div class="w3-container w3-white">
+                        <p><a href="{{ path('app_post_index') }}">
+                                <button class="w3-button w3-padding-large w3-light-blue w3-border w3-medium"><b>Back To list »</b></button></a>
+                        </p>
+                        <p><a href="{{ path('app_post_edit', {'id': post.id}) }}"><button class="w3-button w3-padding-large w3-light-blue w3-border w3-medium"><b>Edit Post »</b></button></a></p>
+                        <p>{{ include('post/_delete_form.html.twig') }}</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    </div>
 
     <a href="{{ path('app_post_index') }}">back to list</a>
 
     <a href="{{ path('app_post_edit', {'id': post.id}) }}">edit</a>
 
-    {{ include('post/_delete_form.html.twig') }}
+
 {% endblock %}

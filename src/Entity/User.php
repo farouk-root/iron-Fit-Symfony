@@ -36,6 +36,9 @@ class User
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Commentaire::class)]
     private Collection $userComment;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $name = null;
+
     public function __construct()
     {
         $this->userPost = new ArrayCollection();
@@ -172,6 +175,18 @@ class User
     public function __toString()
     {
         return $this->mail;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(?string $name): static
+    {
+        $this->name = $name;
+
+        return $this;
     }
 
 }

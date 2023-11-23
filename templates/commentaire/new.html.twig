@@ -3,9 +3,14 @@
 {% block title %}New Commentaire{% endblock %}
 
 {% block body %}
+<div class="w3-content" style="max-width:900px;margin:400px;margin-top: 50px">
+    <!-- Grid -->
+    <div class="w3-row">
     <h1>Create new Commentaire</h1>
 
     {{ include('commentaire/_form.html.twig') }}
 
     <a href="{{ path('app_commentaire_index') }}">back to list</a>
+    </div>
+</div>
 {% endblock %}
