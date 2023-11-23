@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\Form\PostType;
+use App\Repository\CommentaireRepository;
 use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -116,8 +117,16 @@ class PostController extends AbstractController
     }
 
     #[Route('/{postid}/postComments', name: 'app_post_comments', methods: ['GET'])]
-    public function comments(int $postid , PostRepository $repository): Response
+    public function comments(EntityManagerInterface $entityManager,CommentaireRepository $commentaireRepository ,int $postid , PostRepository $repository): Response
     {
+        $commentaires = $commentaireRepository->findAll();
+        foreach ($commentaires as $commentaire) {
+            if ($commentaire->getReportedCount() >= 5) {
+                $commentaire->setIsFlagged(true);
+                $entityManager->flush();
+            } else
+                $commentaire->setIsFlagged(false);
+        }
         $post = $repository->find($postid);
         if (!$post) {
             throw $this->createNotFoundException(

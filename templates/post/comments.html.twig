@@ -21,7 +21,7 @@
                 <p><a href="{{ path('app_post_index') }}">
                         <button class="w3-button w3-padding-large w3-light-blue w3-border w3-medium"><b>Back To list »</b></button></a>
                 </p>
-                <p><a href="{{ path('app_commentaire_new') }}">
+                <p><a href="{{ path('app_commentairePost_new' , {'id': onepost.id }) }}">
                         <button class="w3-button w3-padding-large w3-light-blue w3-border w3-medium"><b>Add Commentaire »</b></button></a>
                 </p>
             </div>
@@ -29,6 +29,7 @@
     </div>
     <div class="w3-row">
         <!-- Blog entries -->
+
 
 
     <div class="w3-card w3-margin">
@@ -52,7 +53,7 @@
                                 </div>
                                 <div class="top-right-div">
                                     <h5>
-                                        <span class="w3-tag w3-light-black w3-large w3-margin-bottom">{{ commentaire.reportedCount }}</span>
+                                        <a href ="{{ path('app_commentaire_report', {'id': commentaire.id}) }}" ><span class="w3-tag w3-light-black w3-large w3-margin-bottom">{{ commentaire.reportedCount }}</span>
                                     </h5>
                                 </div>
 

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Commentaire;
+use App\Entity\Post;
 use App\Form\CommentaireType;
 use App\Repository\CommentaireRepository;
 use App\Repository\PostRepository;
@@ -58,6 +59,33 @@ class CommentaireController extends AbstractController
         ]);
     }
 
+    #[Route('/new/{id}', name: 'app_commentairePost_new', methods: ['GET', 'POST'])]
+    public function newCommentPost(Post $id,Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $commentaire = new Commentaire();
+        $form = $this->createForm(CommentaireType::class, $commentaire);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $commentaire->setReportedCount(0);
+            $commentaire->setIsApproved(false);
+            $commentaire->setIsDeleted(false);
+            $commentaire->setIsFlagged(false);
+            $commentaire->setPost($id);
+
+
+            $entityManager->persist($commentaire);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_post_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('commentaire/new.html.twig', [
+            'commentaire' => $commentaire,
+            'form' => $form,
+        ]);
+    }
+
     #[Route('/{id}', name: 'app_commentaire_show', methods: ['GET'])]
     public function show(Commentaire $commentaire): Response
     {
@@ -89,7 +117,7 @@ class CommentaireController extends AbstractController
     {
         $commentaire->setReportedCount($commentaire->getReportedCount()+1);
         $entityManager->flush();
-        return $this->redirectToRoute('app_post_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_post_comments', ['postid' => $commentaire->getPost()->getId()] , Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{id}', name: 'app_commentaire_delete', methods: ['POST'])]
