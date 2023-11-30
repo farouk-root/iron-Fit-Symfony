@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Post index{% endblock %}
+{% block title %}Publications{% endblock %}
 {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('https://www.w3schools.com/w3css/4/w3.css') }}">
     <link rel="stylesheet" href="{{ asset('https://fonts.googleapis.com/css?family=Raleway') }}">
@@ -43,11 +43,34 @@
                         <p>{{ post.content }}</p>
                         <div class="w3-row">
                             <div class="w3-col m8 s12">
-                                <p><button class="w3-button w3-padding-large w3-white w3-border"><b>READ MORE »</b></button></p>
+                                <p>
+                                    <a href="{{ path('app_post_show', {'id': post.id}) }}">
+                                        <button class="w3-button w3-padding-large w3-white w3-border">
+                                            <b>READ MORE »</b>
+                                        </a>
+                                    </button>
+                                </p>
                             </div>
-                            <div class="w3-col m4 w3-hide-small">
-                                <p><a href="{{ path('app_post_comments', {'postid': post.id}) }}"><span class="w3-padding-large w3-right"><b>Comments  </b> <span class="w3-tag">{{ post.commentaires|length }}</span></span></a></p>
+                            <div class="w3-row" style="display: flex;">
+
+                                <div class="w3-col m4 w3-hide-small" style="flex: 1;">
+                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ absolute_url(path('app_post_show', {'id': post.id})) }}" class="share facebook">
+
+                                        <button class="w3-button w3-padding-small w3-light-blue w3-border w3-medium">
+
+                                            <svg style="width: 30px; height: 30px;margin-top: 5px;margin-bottom: 5px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                                            </svg>
+
+                                        <b>Share</b>
+                                    </button>
+                                    </a>
+                                </div>
+                                <div class="w3-col m4 w3-hide-small" style="flex: 2;">
+                                    <p><a href="{{ path('app_post_comments', {'postid': post.id}) }}"><span class="w3-padding-large w3-right"><b>Comments  </b> <span class="w3-tag">{{ post.commentaires|length }}</span></span></a></p>
+                                </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -84,11 +107,11 @@
                     <h4>Tags</h4>
                 </div>
                 <div class="w3-container w3-white">
-                    <p>     {% for post in posts %}
-                        {% for category in post.categories %}
+                    <p>
+                        {% for category in categories %}
                             <span class="w3-tag w3-light-black w3-medium w3-margin-bottom">{{ category.tag }}</span>
                         {% endfor %}
-                    {% endfor %}
+
                     </p>
                 </div>
             </div>

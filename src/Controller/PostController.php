@@ -4,10 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\Form\PostType;
+use App\Repository\CategoryRepository;
 use App\Repository\CommentaireRepository;
 use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,10 +19,11 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class PostController extends AbstractController
 {
     #[Route('/', name: 'app_post_index', methods: ['GET'])]
-    public function index(PostRepository $postRepository): Response
+    public function index(PostRepository $postRepository , CategoryRepository $categoryRepository): Response
     {
         return $this->render('/post/index.html.twig', [
             'posts' => $postRepository->findAll(),
+            'categories' => $categoryRepository->findAll(),
         ]);
     }
 
@@ -45,9 +48,12 @@ class PostController extends AbstractController
                     );
                 } catch (FileException $e) {
                     // handle exception
+                    $e->getMessage();
                 }
 
                 $post->setImage($newFilename);
+                $post->setLikes(0);
+                $post->setStatus('pending');
             }
             $entityManager->persist($post);
             $entityManager->flush();

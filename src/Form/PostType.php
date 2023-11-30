@@ -40,8 +40,6 @@ class PostType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('status')
-            ->add('likes')
             ->add('image', FileType::class, [
                 'label' => 'Picture (JPEG, PNG or GIF file)',
                 'mapped' => false,
