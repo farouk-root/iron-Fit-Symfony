@@ -27,6 +27,15 @@ class PostController extends AbstractController
         ]);
     }
 
+    #[Route('/admin/', name: 'app_post_index_admin', methods: ['GET'])]
+    public function indexAdmin(PostRepository $postRepository , CategoryRepository $categoryRepository): Response
+    {
+        return $this->render('/post_admin/index.html.twig', [
+            'posts' => $postRepository->findAll(),
+            'categories' => $categoryRepository->findAll(),
+        ]);
+    }
+
     #[Route('/new', name: 'app_post_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager , SluggerInterface $slugger): Response
     {
@@ -108,6 +117,38 @@ class PostController extends AbstractController
         return $this->renderForm('post/edit.html.twig', [
             'post' => $post,
             'form' => $form,
+        ]);
+    }
+
+    #[Route('/admin/{id}/approuved', name: 'app_post_edit_Approuved_Admin', methods: ['GET', 'POST'])]
+    public function editAdminApprouved($id,PostRepository $postRepository ,CategoryRepository $categoryRepository,Request $request, Post $post, EntityManagerInterface $entityManager ,SluggerInterface $slugger): Response
+    {
+            $post = $postRepository->find($post->getId());
+            $post->setStatus('approved');
+            $entityManager->flush();
+
+            //return $this->redirectToRoute('app_post_index', [], Response::HTTP_SEE_OTHER);
+
+
+        return $this->render('/post_admin/index.html.twig', [
+            'posts' => $postRepository->findAll(),
+            'categories' => $categoryRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/admin/{id}/Reported', name: 'app_post_edit_Reported_Admin', methods: ['GET', 'POST'])]
+    public function editAdminReported($id,PostRepository $postRepository ,CategoryRepository $categoryRepository,Request $request, Post $post, EntityManagerInterface $entityManager ,SluggerInterface $slugger): Response
+    {
+        $post = $postRepository->find($post->getId());
+        $post->setStatus('Reported');
+        $entityManager->flush();
+
+        //return $this->redirectToRoute('app_post_index', [], Response::HTTP_SEE_OTHER);
+
+
+        return $this->render('/post_admin/index.html.twig', [
+            'posts' => $postRepository->findAll(),
+            'categories' => $categoryRepository->findAll(),
         ]);
     }
 

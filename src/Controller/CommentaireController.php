@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Commentaire;
+use App\Service\BadWordFilter;
 use App\Entity\Post;
 use App\Form\CommentaireType;
 use App\Repository\CommentaireRepository;
 use App\Repository\PostRepository;
+use ConsoleTVs\Profanity\Facades\Profanity;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,8 +36,10 @@ class CommentaireController extends AbstractController
     }
 
     #[Route('/new', name: 'app_commentaire_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager,BadWordFilter $badWordFilter): Response
     {
+
+
         $commentaire = new Commentaire();
         $form = $this->createForm(CommentaireType::class, $commentaire);
         $form->handleRequest($request);
@@ -46,7 +50,7 @@ class CommentaireController extends AbstractController
             $commentaire->setIsDeleted(false);
             $commentaire->setIsFlagged(false);
 
-
+            $commentaire->setContent($badWordFilter->filter($commentaire->getContent()));
             $entityManager->persist($commentaire);
             $entityManager->flush();
 

@@ -7,6 +7,8 @@ parameters:
     users_directory: '%kernel.project_dir%/public/uploads'
 
 services:
+    App\Service\BadWordFilter:
+        arguments: [ '%bad_words%' ]
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
